@@ -57,38 +57,38 @@ Buy 3 Items
 
 Go To Cart
     Execute Javascript    window.location.reload(true);
-    wait until element is visible    ${do_kosika}
-    click element    ${do_kosika}
+    wait until element is visible    ${cart}
+    click element    ${cart}
 
 Assert Cart Count
-    Set Global Variable    ${ICON_COUNT}    get element attribute    ${kosik}    data-count
-    Set Local Variable    ${items_in_cart}    xpath:(//div[contains(@class, "c-responsive-cart__section-wrapper")])
+    Set Global Variable    ${ICON_COUNT}    get element attribute    ${cart_checkout}    data-count
+    Set Local Variable    ${items_in_cart}    ${checkout_item}
     Set Local Variable    ${item_count}    get length    ${items_in_cart}
     Should Be Equal As Integers    ${ICON_COUNT}    ${item_count}
 
 Assert Price Range
     #  TODO - refactor repeating xpath substring
-    Set Local Variable    ${items_in_cart}    xpath:(//div[contains(@class, "c-responsive-cart__section-wrapper")])//div[contains(@class, "c-product-card__price u-bold")]
+    Set Local Variable    ${items_in_cart}    ${checkout_item}//div[contains(@class, "c-product-card__price u-bold")]
     FOR    ${item}    IN    @{items_in_cart}
         ${is_in_range} =    Evaluate    39 < ${item} < 101
         Should Be True    ${is_in_range}
     END
 
 Remove 1 Item From Cart
-    click element    ${delete_item}
-    wait until element is visible    ${confirm_deletion}
-    click element    ${confirm_deletion}
+    click element    ${item_delete_first}
+    wait until element is visible    ${confirm_deletion}[1]
+    click element    ${confirm_deletion}[1]
     sleep    2
 
 Assert Cart Icon Decrement
     ${count_before} =    ${ICON_COUNT}
-    Set Global Variable    ${ICON_COUNT}    get element attribute    ${kosik}    data-count
+    Set Global Variable    ${ICON_COUNT}    get element attribute    ${cart_checkout}    data-count
     ${count_after} =    ${ICON_COUNT}
     ${is_decreased} =    Evaluate    ${count_before} - ${count_after} == 2
     Should Be True   ${is_decreased}
 
 Assert Item Deletion
-    Set Local Variable    ${items_in_cart}    xpath:(//div[contains(@class, "c-responsive-cart__section-wrapper")])
+    Set Local Variable    ${items_in_cart}    ${checkout_item}
     Set Local Variable    ${item_count}    get length    ${items_in_cart}
     Should Be Equal As Integers    ${ICON_COUNT}    ${item_count}
 
@@ -97,7 +97,7 @@ Assert Removal Of 1 Item
     Assert Item Deletion
 
 Remove Remaining Items
-    Set Local Variable    ${items}    xpath:(//div[contains(@class, "c-responsive-cart__section-wrapper")])
+    Set Local Variable    ${items}    ${checkout_item}
     FOR    ${item}    IN    ${items}
         click element    ${item}//a[contains(@class, "js-modal__toggle e-action")]
         wait until element is visible    ${confirm_deletion}
@@ -106,6 +106,6 @@ Remove Remaining Items
     END
 
 Assert Empty Cart
-    Set Global Variable    ${ICON_COUNT}    get element attribute    ${kosik}    data-count
+    Set Global Variable    ${ICON_COUNT}    get element attribute    ${cart_checkout}    data-count
     Should Be Equal As Integers    ${ICON_COUNT}    0
     Page Should Contain    Váš košík zíva prázdnotou
