@@ -1,0 +1,13 @@
+.venv
+.others
+.idea
+**/*.pptx
+**/*.xlsx
+**/*.html
+**/*.xml
+**/*.png
+**/pabot_results
+tms
+tms/google
+tms/odoprave
+
