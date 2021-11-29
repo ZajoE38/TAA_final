@@ -7,4 +7,4 @@
 7. URL to webdriver: https://chromedriver.chromium.org/downloads
 8. Include webdriver containing folder in path variable, in system enviromental variables
 9. To run the test, change directory to ./Tests
-10. Type command: robot heureka.robot
+10. Type command: robot tc100.robot
