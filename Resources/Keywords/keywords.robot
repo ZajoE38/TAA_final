@@ -1,5 +1,5 @@
 *** Settings ***
-Resource    ./Resources/Variables/variables.robot
+Resource    ../Variables/variables.robot
 
 
 *** Keywords ***
@@ -61,10 +61,10 @@ Go To Cart
     click element    ${do_kosika}
 
 Assert Cart Count
-    Set Global Variable    ${ICON_COUNT}    get element attribute    ${kosik}    data-count
+    Set Global Variable    @{ICON_COUNT}    get element attribute    ${kosik}    data-count
     Set Local Variable    ${items_in_cart}    xpath:(//div[contains(@class, "c-responsive-cart__section-wrapper")])
     Set Local Variable    ${item_count}    get length    ${items_in_cart}
-    Should Be Equal As Integers    ${ICON_COUNT}    ${item_count}
+    Should Be Equal As Integers    @{ICON_COUNT}    ${item_count}
 
 Assert Price Range
     #  TODO - refactor repeating xpath substring
@@ -81,16 +81,16 @@ Remove 1 Item From Cart
     sleep    2
 
 Assert Cart Icon Decrement
-    ${count_before} =    ${ICON_COUNT}
-    Set Global Variable    ${ICON_COUNT}    get element attribute    ${kosik}    data-count
-    ${count_after} =    ${ICON_COUNT}
+    ${count_before} =    @{ICON_COUNT}
+    Set Global Variable    @{ICON_COUNT}    get element attribute    ${kosik}    data-count
+    ${count_after} =    @{ICON_COUNT}
     ${is_decreased} =    Evaluate    ${count_before} - ${count_after} == 2
     Should Be True   ${is_decreased}
 
 Assert Item Deletion
     Set Local Variable    ${items_in_cart}    xpath:(//div[contains(@class, "c-responsive-cart__section-wrapper")])
     Set Local Variable    ${item_count}    get length    ${items_in_cart}
-    Should Be Equal As Integers    ${ICON_COUNT}    ${item_count}
+    Should Be Equal As Integers    @{ICON_COUNT}    ${item_count}
 
 Assert Removal Of 1 Item
     Assert Cart Icon Decrement
@@ -106,6 +106,6 @@ Remove Remaining Items
     END
 
 Assert Empty Cart
-    Set Global Variable    ${ICON_COUNT}    get element attribute    ${kosik}    data-count
-    Should Be Equal As Integers    ${ICON_COUNT}    0
+    Set Global Variable    @{ICON_COUNT}    get element attribute    ${kosik}    data-count
+    Should Be Equal As Integers    @{ICON_COUNT}    0
     Page Should Contain    Váš košík zíva prázdnotou

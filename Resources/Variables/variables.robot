@@ -1,7 +1,7 @@
 *** Variables ***
 ${AUT_URL}              https://www.heureka.sk/
 ${BROWSER_TYPE}         gc    #google chrome
-${ICON_COUNT}           init
+@{ICON_COUNT}           init
 ${banner_darceky}       xpath://section[@id="today-tips-ads"]//a[@href="https://darceky.heureka.sk/"]
 ${pre_par}              xpath://section[contains(@class, "filter-target o-wrapper--fill")]//a[@href="/par/"]
 ${sub_vianoce}          xpath://section[contains(@class, "categories-section")]//a[@href="/par/vianoce/"]

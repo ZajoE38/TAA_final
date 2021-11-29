@@ -1,8 +1,8 @@
 *** Settings ***
 Documentation    Suite description
 Library    SeleniumLibrary
-Resource    ./Resources/Keywords/keywords.robot
-Resource    ./Resources/Variables/variables.robot
+Resource    ../Resources/Keywords/keywords.robot
+Resource    ../Resources/Variables/variables.robot
 Test Setup    Open Browser On AUT Homepage
 Test Teardown    Close Browser
 
