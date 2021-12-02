@@ -7,10 +7,6 @@ Open Browser On AUT Homepage
     Open Browser        ${AUT_URL}    ${BROWSER_TYPE}
     Set Window Size     1920    1080
 
-Click On Darceky
-    wait until element is visible    ${banner_darceky}
-    click element    ${banner_darceky}
-
 #  TODO - finish & implement
 Random Element
     Set Local Variable    ${locator}    xpath:(//section[contains(@class, "filter-target o-wrapper--fill")]//a)
@@ -18,47 +14,32 @@ Random Element
 #    Click Element    ${locator}[${random_number}]
     Log    ${locator}
 
-Click On Pre Par
-    wait until element is visible    ${pre_par}
-    click element    ${pre_par}
-
-Click On Vianoce
-    wait until element is visible    ${sub_vianoce}
-    click element    ${sub_vianoce}
+Click On
+    [Arguments]    ${element}
+    wait until element is visible    ${element}
+    click element    ${element}
 
 Choose Price Range
-    wait until element is visible    ${cena_40_to_100}
-    click element    ${cena_40_to_100}
-    sleep    3
+    [Arguments]    ${range_element}
+    Click On    ${range_element}
 
-Click On Category
-    wait until element is visible    ${category_item}
-    click element    ${category_item}
-    sleep    2
+Cart
+    [Arguments]    ${element}
+    Execute Javascript    window.location.reload(true);
+    Click On    ${element}
 
-Click On Kupit na Heureke
-    sleep    3
-    wait until element is visible    ${kupit_btn}
-    click element    ${kupit_btn}
-    wait until page contains    Tovar sme pridali do košíka
-
-Buy 3 Items
+Buy 3 Items And Add To Cart
     ${items} =    Create List    ${item4}    ${item5}    ${item6}
     FOR    ${item}    IN    @{items}
-        Click On Category
+        Click On    ${stolove_hry}
         Switch Window    locator=NEW
-        Click Element    ${item}
-        Wait Until Keyword Succeeds    1 min    5 sec    Click On Kupit na Heureke
-        wait until page contains    Tovar sme pridali do košíka
-        sleep    5
+        Click On    ${item}
+        Wait Until Keyword Succeeds    1 min    5 sec    Click On    ${kupit}
+        Wait Until Page Contains    Tovar sme pridali do košíka
+        Sleep    5
         Close Window
         Switch Window    locator=MAIN
     END
-
-Go To Cart
-    Execute Javascript    window.location.reload(true);
-    wait until element is visible    ${do_kosika}
-    click element    ${do_kosika}
 
 Assert Cart Count
     Set Global Variable    @{ICON_COUNT}    get element attribute    ${kosik}    data-count
