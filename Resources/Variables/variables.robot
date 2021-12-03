@@ -17,6 +17,10 @@ ${stolove_hry}          xpath://li[@data-name="Stolové hry"]
 ${item4}                xpath:(//ul[contains(@class, "c-product-list__items")]/li)[4]
 ${item5}                xpath:(//ul[contains(@class, "c-product-list__items")]/li)[5]
 ${item6}                xpath:(//ul[contains(@class, "c-product-list__items")]/li)[6]
+#${item}                 xpath:(//ul[contains(@class, "c-product-list__items")]/li)
+#${item4}                ${item}[4]
+#${item5}                ${item}[5]
+#${item6}                ${item}[6]
 
 #${kupit}                xpath://div[contains(@class, "js-cart c-top-position__buy")]
 ${kupit}                xpath://button[@data-test-id="js_cart_submit"]

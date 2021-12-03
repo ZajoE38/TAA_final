@@ -34,6 +34,7 @@ Buy 3 Items And Add To Cart
         Sleep    5s
         Wait Until Keyword Succeeds    30sec    3sec    Wait Until Element Is Visible    ${kupit}
         Wait Until Keyword Succeeds    30sec    3sec    Click On    ${kupit}
+        Sleep    1s
         Close Window
         Switch Window    locator=MAIN
     END
@@ -43,9 +44,10 @@ Click On Header Cart Button
     Click On    ${header_cart}
 
 Check Cart Icon Number And Item Count Are Equal
-    Set Global Variable    @{HEADER_CART_COUNT}    get element attribute    ${header_cart}    data-count
+    Set Global Variable    @{string_cart_count}    get element attribute    ${header_cart}    data-count
+    Set Local Variable    @{integer_cart_count}    Convert To Number    ${string_cart_count}
     Set Local Variable    @{item_count}    get length    ${in_cart_items}
-    Should Be Equal As Integers    @{HEADER_CART_COUNT}    @{item_count}
+    Should Be Equal As Integers    @{integer_cart_count}    @{item_count}
 
 Check Price Of All Items In Cart Is In Range 40 To 100
     Set Local Variable    ${items_price}    ${in_cart_items}//div[contains(@class, "c-product-card__price u-bold")]
