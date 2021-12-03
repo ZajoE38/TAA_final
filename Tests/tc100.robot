@@ -1,5 +1,5 @@
 *** Settings ***
-Documentation    Suite description
+Documentation    Heureka website regression suite
 Library    SeleniumLibrary
 Resource    ../Resources/Keywords/keywords.robot
 Resource    ../Resources/Variables/variables.robot
@@ -14,11 +14,12 @@ Test Teardown    Close Browser
     Click On    ${prilezitost_vianoce}
     Choose Price Range    ${40_to_100}
     Buy 3 Items And Add To Cart
-    Go To Cart
-#    Assert Cart Count
-#    Assert Price Range
-#    Remove 1 Item From Cart
-#    Assert Removal Of 1 Item
-#    Remove Remaining Items
-#    Assert Empty Cart
+    Click On Header Cart Button
+    Check Cart Icon Number And Item Count Are Equal
+    Check Price Of All Items In Cart Is In Range 40 To 100
+    Remove Top Single Item From Cart
+    Check If Cart Counter Decremented
+    Check If Top Single Item Was Deleted
+    Remove All Items In Cart Items
+    Check If Cart Is Empty
 

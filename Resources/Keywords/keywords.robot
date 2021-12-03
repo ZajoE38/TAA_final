@@ -23,61 +23,56 @@ Choose Price Range
     [Arguments]    ${range_element}
     Click On    ${range_element}
 
-Cart
-    [Arguments]    ${element}
-    Execute Javascript    window.location.reload(true);
-    Click On    ${element}
-
 Buy 3 Items And Add To Cart
+    [Documentation]     Picks 3 hardcoded items that contains button {kupit},
+    ...                 opens it it new window, click buy, close window and repeat 3 times
     ${items} =    Create List    ${item4}    ${item5}    ${item6}
     FOR    ${item}    IN    @{items}
         Click On    ${stolove_hry}
         Switch Window    locator=NEW
         Click On    ${item}
-        Wait Until Keyword Succeeds    1 min    5 sec    Click On    ${kupit}
-        Wait Until Page Contains    Tovar sme pridali do košíka
-        Sleep    5
+        Sleep    5s
+        Wait Until Keyword Succeeds    30sec    3sec    Wait Until Element Is Visible    ${kupit}
+        Wait Until Keyword Succeeds    30sec    3sec    Click On    ${kupit}
         Close Window
         Switch Window    locator=MAIN
     END
 
-Assert Cart Count
-    Set Global Variable    @{ICON_COUNT}    get element attribute    ${kosik}    data-count
-    Set Local Variable    ${items_in_cart}    xpath:(//div[contains(@class, "c-responsive-cart__section-wrapper")])
-    Set Local Variable    ${item_count}    get length    ${items_in_cart}
-    Should Be Equal As Integers    @{ICON_COUNT}    ${item_count}
+Click On Header Cart Button
+    Execute Javascript    window.location.reload(true);
+    Click On    ${header_cart}
 
-Assert Price Range
-    #  TODO - refactor repeating xpath substring
-    Set Local Variable    ${items_in_cart}    xpath:(//div[contains(@class, "c-responsive-cart__section-wrapper")])//div[contains(@class, "c-product-card__price u-bold")]
-    FOR    ${item}    IN    @{items_in_cart}
-        ${is_in_range} =    Evaluate    39 < ${item} < 101
-        Should Be True    ${is_in_range}
+Check Cart Icon Number And Item Count Are Equal
+    Set Global Variable    @{HEADER_CART_COUNT}    get element attribute    ${header_cart}    data-count
+    Set Local Variable    @{item_count}    get length    ${in_cart_items}
+    Should Be Equal As Integers    @{HEADER_CART_COUNT}    @{item_count}
+
+Check Price Of All Items In Cart Is In Range 40 To 100
+    Set Local Variable    ${items_price}    ${in_cart_items}//div[contains(@class, "c-product-card__price u-bold")]
+    FOR    ${item_price}    IN    @{items_price}
+        Should Be True    Evaluate    39 < ${item_price} < 101
     END
 
-Remove 1 Item From Cart
-    click element    ${delete_item}
+Remove Top Single Item From Cart
+    click element    ${delete_top_item}
     wait until element is visible    ${confirm_deletion}
     click element    ${confirm_deletion}
-    sleep    2
+#    sleep    2
 
-Assert Cart Icon Decrement
-    ${count_before} =    @{ICON_COUNT}
-    Set Global Variable    @{ICON_COUNT}    get element attribute    ${kosik}    data-count
-    ${count_after} =    @{ICON_COUNT}
-    ${is_decreased} =    Evaluate    ${count_before} - ${count_after} == 2
-    Should Be True   ${is_decreased}
+Check If Cart Counter Decremented
+    Set Local Variable    ${price_before} =    @{HEADER_CART_COUNT}
+    #  Update variable
+    Set Global Variable    @{HEADER_CART_COUNT}    get element attribute    ${header_cart}    data-count
+    Set Local Variable    ${price_after}
+    Should Be True    Evaluate    ${price_before} - ${price_after} == 1
 
-Assert Item Deletion
+Check If Top Single Item Was Deleted
     Set Local Variable    ${items_in_cart}    xpath:(//div[contains(@class, "c-responsive-cart__section-wrapper")])
-    Set Local Variable    ${item_count}    get length    ${items_in_cart}
-    Should Be Equal As Integers    @{ICON_COUNT}    ${item_count}
+    Set Local Variable    @{item_count}    get length    ${items_in_cart}
+    Should Be Equal As Integers    @{ICON_COUNT}    @{item_count}
 
-Assert Removal Of 1 Item
-    Assert Cart Icon Decrement
-    Assert Item Deletion
 
-Remove Remaining Items
+Remove All Items In Cart Items
     Set Local Variable    ${items}    xpath:(//div[contains(@class, "c-responsive-cart__section-wrapper")])
     FOR    ${item}    IN    ${items}
         click element    ${item}//a[contains(@class, "js-modal__toggle e-action")]
@@ -86,7 +81,7 @@ Remove Remaining Items
         sleep    2
     END
 
-Assert Empty Cart
-    Set Global Variable    @{ICON_COUNT}    get element attribute    ${kosik}    data-count
+Check If Cart Is Empty
+    Set Global Variable    @{ICON_COUNT}    get element attribute    ${header_cart}    data-count
     Should Be Equal As Integers    @{ICON_COUNT}    0
     Page Should Contain    Váš košík zíva prázdnotou
