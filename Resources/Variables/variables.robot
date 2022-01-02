@@ -14,17 +14,14 @@ ${darceky}              xpath://a[@title="Tipy na darčeky"]
 ${pre_par}              xpath://a[@data-label="Pár"]
 ${prilezitost_vianoce}  xpath://label//span[text()="Vianoce"]
 ${stolove_hry}          xpath://li[@data-name="Stolové hry"]
-${item4}                xpath:(//ul[contains(@class, "c-product-list__items")]/li)[4]
-${item5}                xpath:(//ul[contains(@class, "c-product-list__items")]/li)[5]
-${item6}                xpath:(//ul[contains(@class, "c-product-list__items")]/li)[6]
+${zoznam}               xpath:(//ul[contains(@class, "c-product-list__items")]/li)
+${item1}                xpath:(//ul[contains(@class, "c-product-list__items")]/li)[4]
+${item2}                xpath:(//ul[contains(@class, "c-product-list__items")]/li)[5]
+${item3}                xpath:(//ul[contains(@class, "c-product-list__items")]/li)[6]
 
-#  nefunguje, zatial som nedosiel na to preco
-#${item}                 xpath:(//ul[contains(@class, "c-product-list__items")]/li)
-#${item4}                ${item}[4]
-#${item5}                ${item}[5]
-#${item6}                ${item}[6]
-
-${kupit}                xpath://button[@data-test-id="js_cart_submit"]
+${kupit}                xpath://button[contains(@class, "c-top-offer__cart-button e-button")]
+${kupit_popup}          xpath://button[contains(@class, "c-variant__button e-button e-button--highlight u-micro")]
+${to_cart}              xpath://a[contains(@class, "c-cart-confirm__button--cart e-button e-button--highlight")]
 ${header_cart}          xpath://li[contains(@class, "c-user-controls__item--cart")]
 ${in_cart_items}        xpath:(//div[contains(@class, "c-responsive-cart__section-wrapper")])
 ${delete_top_item}      ${in_cart_items}[1]//a[contains(@class, "js-modal__toggle e-action")]
